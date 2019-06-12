@@ -1,11 +1,17 @@
 <h1>IndexPage</h1>
-<%= link_to "Add", new_tweet_path %>
+<hr>
+<% if current_user %>
+  <h1>Add new tweet</h1>
+  <%= form_for @tweet do |f| %>
+    <%= f.text_area :content, size: "60x12" %>
+    <%= f.submit "Create" %>
+  <% end %>
+<% end %>
 <hr>
 <% @tweets.each do |tweet| %>
-  <h6><%= tweet.author %></h6>
+  <h6>Author: <%= tweet.user.name %></h6>
   <p><%= tweet.content %></p>
-  <% if user_signed_in? %>
-    <%= link_to "Edit", edit_tweet_path(tweet) %>
+  <% if user_signed_in? && current_user.id == tweet.user.id %>
     <%= link_to 'Delete', tweet, method: :delete, data: { confirm: 'Are you sure?' } %>
   <% end %>
 <% end %>
