@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-
   describe 'valid factories' do
     context :user do
-      subject {build(:user)}
+      subject { build(:user) }
       it { is_expected.to be_valid }
     end
 
     context :user_with_tweets do
-      subject {build(:user_with_tweets)}
+      subject { build(:user_with_tweets) }
       it { is_expected.to be_valid }
     end
   end
@@ -21,5 +22,4 @@ RSpec.describe User, type: :model do
   describe 'associations' do
     it { is_expected.to have_many(:tweets) }
   end
-
 end
