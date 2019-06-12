@@ -1,5 +1,6 @@
 class TweetsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
+  # before_action :assign_resource, only: [:update, :delete, :show]
 
   def index
     @tweet = Tweet.new
@@ -19,7 +20,7 @@ class TweetsController < ApplicationController
   private
 
   def tweets_params
-    params.require(:tweet).permit(:content).merge!(user_id: current_user.id)
+    params.require(:tweet).permit(:content).merge(user_id: current_user.id)
   end
 
 end
