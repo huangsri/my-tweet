@@ -1,0 +1,6 @@
+<h1>Edit Tweet</h1>
+<%= form_for @tweet do |f| %>
+  <%= f.text_field :author %>
+  <%= f.text_area :content, size: "60x12" %>
+  <%= f.submit "Update" %>
+<% end %>
