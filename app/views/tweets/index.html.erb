@@ -9,7 +9,15 @@
 <% @tweets.each do |tweet| %>
   <h6>Author: <%= tweet.user.name %></h6>
   <p><%= tweet.content %></p>
-  <% if user_signed_in? && current_user.id == tweet.user.id %>
-    <%= link_to 'Delete', tweet, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <p>#Likes: <%= tweet.likes.size %></p>
+  <% if user_signed_in? %>
+    <% if tweet.likes.include?(current_user.id) %>
+      <%= link_to 'UNLIKE', tweet_path(tweet), method: :post %>
+    <% else %>
+      <%= link_to 'LIKE', tweet_path(tweet), method: :post %>
+    <% end %>
+    <% if current_user.id == tweet.user.id %>
+      <%= link_to 'Delete', tweet, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
   <% end %>
 <% end %>
