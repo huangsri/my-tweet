@@ -1,0 +1,17 @@
+<p><%= tweets[0].user.name %></p>
+<p><%= tweets[0].content %></p>
+<p>#Likes: <%= tweets[0].likes.size %></p>
+<% if user_signed_in? %>
+  <% if tweets[0].likes.include?(current_user.id) %>
+    <%= link_to 'UNLIKE', tweet_path(tweets[0]), method: :post %>
+  <% else %>
+    <%= link_to 'LIKE', tweet_path(tweets[0]), method: :post %>
+  <% end %>
+  <%= link_to "Reply", "/tweets/#{tweets[0].id}/reply"  %>
+  <% if current_user.id == tweets[0].user.id %>
+    <%= link_to 'Delete', tweets[0], method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% end %>
+<% end %>
+<% unless tweets[1].nil? %>
+  <%= render 'tweet', tweets: tweets[1] %>
+<% end %>

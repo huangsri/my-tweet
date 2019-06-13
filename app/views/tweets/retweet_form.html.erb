@@ -1,0 +1,5 @@
+<h1>Retweet Tweet</h1>
+<%= form_for @tweet, url: "/tweets/#{params[:id]}/retweet", html: {method: "post"} do |f| %>
+  <%= f.text_area :retweet_comment, size: "60x4" %>
+  <%= f.submit "Tweet" %>
+<% end %>

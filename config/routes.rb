@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   resources :tweets
 
   post '/tweets/:id', to: 'tweets#like'
-  
+  get 'tweets/:id/reply', to: 'tweets#reply_form'
+  post '/tweets/:id/reply', to: 'tweets#reply'
+  get 'tweets/:id/retweet', to: 'tweets#retweet_form'
+  post 'tweets/:id/retweet', to: 'tweets#retweet'
 
   # namespace :tweets do
   #   # resources :likes, module: :tweets, only: :toggle
