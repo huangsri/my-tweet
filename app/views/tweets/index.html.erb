@@ -1,34 +1,44 @@
 <% if current_user %>
-  <h1>Add new tweet</h1>
-  <%= form_for @tweet do |f| %>
-    <%= f.text_area :content, size: "60x4", required: true %>
-    <%= f.submit "Create" %>
-  <% end %>
+  <div class="form__container">
+    <%= form_for @tweet, html: { class: "form__control" } do |f| %>
+      <%= f.text_area :content, size: "60x3", required: true, class: "input", placeholder: "What's happening ?" %>
+      <%= f.submit "Tweet", class: "btn" %>
+    <% end %>
+  </div>
 <% end %>
-<hr>
 <% @tweets.each do |tweet| %>
-  <% if tweet.parent_id %>
-    <h6>reply to <%= tweet.parent.user.name %></h6>
-  <% elsif tweet.retweet_id %>
-    <h6>retweeted from <%= tweet.retweet.user.name %></h6>
-    <p><%= tweet.retweet_comment %></p>
-  <% end %>
-  <h6></h6>
-  <h5>Author: <%= tweet.user.name %></h5>
-  <p><%= tweet.content %></p>
-  <p>#Likes: <%= tweet.likes.size %></p>
-  <% if user_signed_in? %>
-    <% if tweet.likes.include?(current_user.id) %>
-      <%= link_to 'UNLIKE', tweet_path(tweet), method: :post %>
-    <% else %>
-      <%= link_to 'LIKE', tweet_path(tweet), method: :post %>
+  <div class="tweet__container">
+    <% if tweet.parent_id %>
+      <div class="retweet__text">reply to <%= tweet.parent.user.name %></div>
+    <% elsif tweet.retweet_id %>
+      <div class="retweet__text"><%= fa_icon "retweet" %> retweeted from <%= tweet.retweet.user.name %></div>
+      <p><%= tweet.retweet_comment %></p>
     <% end %>
-    <%= link_to "Reply", "/tweets/#{tweet.id}/reply"  %>
-    <%= link_to "Retweet", "/tweets/#{tweet.id}/retweet"  %>
-    <% if current_user.id == tweet.user.id %>
-      <%= link_to 'Delete', tweet, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <h6></h6>
+    <div class="author">@<%= tweet.user.name %> - <%= tweet.created_at.strftime("%d %b %Y") %></div>
+    <div class="tweet__content"><%= tweet.content %></div>
+    <% if user_signed_in? %>
+      <% if tweet.likes.include?(current_user.id) %>
+        <%= link_to tweet_path(tweet), method: :post, class: "heart" do %>
+          <%= fa_icon "heart", class: "heart" %> <span class="color-red"> <%= tweet.likes.size %></span>
+        <% end %>
+      <% else %>
+        <%= link_to tweet_path(tweet), method: :post, class: "heart" do %>
+          <%= fa_icon "heart-o", class: "icon icon__heart" %> <span class="color-red"> <%= tweet.likes.size %></span>
+        <% end %>
+      <% end %>
+      <%= link_to "/tweets/#{tweet.id}/reply" do %>
+        <%= fa_icon "comment-o", class: "icon icon__comment" %>
+      <% end %>
+      <%= link_to "/tweets/#{tweet.id}/retweet" do %>
+        <%= fa_icon "retweet", class: 'icon icon__retweet' %>
+      <% end %>
+      <% if current_user.id == tweet.user.id %>
+        <%= link_to tweet, method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <%= fa_icon "trash-alt", class: 'icon icon__trash' %>
+        <% end %>
+      <% end %>
     <% end %>
-  <% end %>
-  <%= link_to 'View', tweet_path(tweet) %>
-  <hr>
+    <%= link_to 'View', tweet_path(tweet) %>
+  </div>
 <% end %>
